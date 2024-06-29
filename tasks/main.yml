@@ -9,7 +9,7 @@
 
 - name: Set fact
   set_fact:
-    binenv_download_url: "https://github.com/devops-works/binenv/releases/latest/download/binenv_linux_{{ ansible_architecture }}"
+    binenv_download_url: "https://github.com/devops-works/binenv/releases/latest/download/binenv_linux_{{ binenv_architecture }}"
   when: not binenv_download_url
 
 
