@@ -1,0 +1,28 @@
+
+- name: Include arch variables
+  include_vars: '{{ item }}'
+  with_first_found:
+    - files:
+        - 'arch-{{ ansible_architecture }}.yml'
+      path:
+        - '../vars'
+
+- name: Set fact
+  set_fact:
+    binenv_download_url: "https://github.com/devops-works/binenv/releases/latest/download/binenv_linux_{{ ansible_architecture }}"
+  when: not binenv_download_url
+
+
+- name: Get binenv
+  get_url:
+    url: '{{ binenv_download_url }}'
+    dest: /usr/local/bin/binenv
+    mode: 0755
+
+- name: Create binenv profile
+  copy:
+    src: binenv.sh
+    dest: /etc/profile.d/binenv.sh
+
+
+  when: binenv_do_autoinstall
